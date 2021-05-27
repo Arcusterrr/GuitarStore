@@ -2,12 +2,14 @@
 using System.Linq;
 using Domain.Entities;
 using Domain.Enums;
-using Microsoft.AspNetCore.Identity;
+ using Infrastructure.Configuration;
+ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+ using Microsoft.Extensions.Options;
 
-namespace Infrastructure.Data
+ namespace Infrastructure.Data
 {
     public static class DatabaseInitializer
     {
@@ -22,15 +24,17 @@ namespace Infrastructure.Data
             var userManager = sp.GetRequiredService<UserManager<User>>();
             var rolesManager = sp.GetRequiredService<RoleManager<IdentityRole<int>>>();
             var logger = sp.GetService<ILogger<AppDbContext>>();
+            var config = sp.GetService<IOptions<AdminConfiguration>>();
 
             using var txn = dbContext.Database.BeginTransaction();
-            Seed(dbContext, userManager, rolesManager, logger);
+            Seed(dbContext, userManager, rolesManager, logger, config.Value);
 
             txn.Commit();
         }
 
         private static void Seed(AppDbContext dbContext, UserManager<User> userManager,
-            RoleManager<IdentityRole<int>> roleManager, ILogger<AppDbContext> logger)
+            RoleManager<IdentityRole<int>> roleManager, ILogger<AppDbContext> logger, 
+            AdminConfiguration config)
         {
             try
             {
@@ -44,6 +48,14 @@ namespace Infrastructure.Data
                         roleManager.CreateAsync(new IdentityRole<int>(role)).Wait();
                     }
                 }
+                
+                var user = new User(DateTime.Now, config.AdminUserName);
+
+                userManager.CreateAsync(user).GetAwaiter().GetResult();
+                userManager.AddPasswordAsync(user, config.AdminPassword).GetAwaiter().GetResult();
+                userManager.AddToRoleAsync(user, UserRole.Admin.ToString()).GetAwaiter().GetResult();
+                
+                dbContext.SaveChanges();
                 
                 dbContext.SaveChanges();
                 var guitarType = new GuitarType { Name = "Электрогитара" };

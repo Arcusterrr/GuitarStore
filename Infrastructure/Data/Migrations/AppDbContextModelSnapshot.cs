@@ -32,6 +32,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("boolean");
 
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -85,6 +88,9 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
+
+                    b.Property<string[]>("DetailedImages")
+                        .HasColumnType("text[]");
 
                     b.Property<int>("GuitarTypeId")
                         .HasColumnType("integer");
