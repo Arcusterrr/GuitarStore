@@ -21,5 +21,12 @@ namespace Schedule.Controllers.App
         [HttpGet]
         public async Task<IActionResult> GetGuitars([FromQuery] GetGuitarInput request) =>
             await _dispatcher.DispatchAsync(request);
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetGuitarsById([FromRoute] int id) =>
+            await _dispatcher.DispatchAsync(new GetGuitarInputById { 
+                Id = id
+            });
     }
+
 }
