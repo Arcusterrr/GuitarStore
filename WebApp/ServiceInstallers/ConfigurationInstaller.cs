@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Infrastructure.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Schedule.Configuration;
@@ -11,6 +12,7 @@ namespace Schedule.ServiceInstallers
         public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment env)
         {
             services
+                .Configure<AdminConfiguration>(configuration.GetSection("Admin"))
                 .Configure<AuthConfiguration>(configuration.GetSection("Auth"))
                 .Configure<CaptchaConfiguration>(configuration.GetSection("ReCaptcha"));
         }

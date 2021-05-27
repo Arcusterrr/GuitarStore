@@ -40,6 +40,9 @@ namespace Schedule
                 option.SwaggerEndpoint("v1/swagger.json", "API");
             });
 
+            app.UseStaticFiles();
+            app.UseDefaultFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -49,6 +52,27 @@ namespace Schedule
             {
                 endpoints.MapDefaultControllerRoute();
             });
+            
+            app.Map("/admin", app1 =>
+            {
+                app1.UseSpa(config =>
+                {
+                    config.Options.DefaultPage = "/admin/index.html";
+                    config.Options.SourcePath = "Frontend";
+                });
+            });
+
+            app.MapWhen(x => 
+                    !x.Request.Path.StartsWithSegments("/swagger")
+                    && !x.Request.Path.StartsWithSegments("/admin"), 
+                app1 =>
+                {
+                    app1.UseSpa(config =>
+                    {
+                        config.Options.DefaultPage = "/client/index.html";
+                        config.Options.SourcePath = "Frontend";
+                    });
+                });
         }
     }
 }

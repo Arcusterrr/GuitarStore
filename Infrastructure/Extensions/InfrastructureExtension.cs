@@ -1,6 +1,8 @@
 ﻿﻿using Domain.Abstractions.Data;
-using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
+ using Domain.Services;
+ using Infrastructure.Data;
+ using Infrastructure.Services;
+ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Extensions
@@ -15,7 +17,8 @@ namespace Infrastructure.Extensions
                     options.UseNpgsql(connectionString);
                     options.EnableSensitiveDataLogging();
                 })
-                .AddScoped<IAppContext, AppDbContext>();
+                .AddScoped<IAppContext, AppDbContext>()
+                .AddScoped<IFileStorage, FileStorage>();
         }
     }
 }
