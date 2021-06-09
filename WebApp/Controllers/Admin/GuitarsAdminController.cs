@@ -28,7 +28,7 @@ namespace WebApp.Controllers.Admin
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGuitar([FromForm] CreateGuitarModel request, IFormFileCollection Files) =>
+        public async Task<IActionResult> CreateGuitar([FromForm] CreateGuitarModel request) =>
             await _dispatcher.DispatchAsync(new CreateGuitarInput
             {
                 Name = request.Name,
@@ -37,13 +37,12 @@ namespace WebApp.Controllers.Admin
                 Count = request.Count,
                 Rating = request.Rating,
                 GuitarTypeId = request.GuitarTypeId,
-                Image = Files.First().OpenReadStream(),
-                Files = Files.Skip(1).Select(x => x.OpenReadStream()),
+                Image = request.Image.OpenReadStream(),
+                Files = request.Files.Select(x => x.OpenReadStream()),
             });
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditGuitar([FromForm] CreateGuitarModel request, [FromRoute] int id,
-            IFormFileCollection Files) =>
+        public async Task<IActionResult> EditGuitar([FromForm] CreateGuitarModel request, [FromRoute] int id) =>
             await _dispatcher.DispatchAsync(new EditGuitarInput
             {
                 Id = id,
@@ -53,8 +52,8 @@ namespace WebApp.Controllers.Admin
                 Count = request.Count,
                 Rating = request.Rating,
                 GuitarTypeId = request.GuitarTypeId,
-                Image = Files.FirstOrDefault() != null ? Files.FirstOrDefault()!.OpenReadStream() : Stream.Null,
-                Files = Files?.Skip(1).Select(x => x.OpenReadStream()) ?? Array.Empty<Stream>()
+                Image = request.Image != null ? request.Image.OpenReadStream() : Stream.Null,
+                Files = request.Files?.Select(x => x.OpenReadStream()) ?? Array.Empty<Stream>()
             });
     }
 
@@ -65,6 +64,8 @@ namespace WebApp.Controllers.Admin
         public int Cost { get; set; }
         public int Count { get; set; }
         public int Rating { get; set; }
+        public IFormFileCollection Files { get; set; }
+        public IFormFile Image { get; set; }
         public int GuitarTypeId { get; set; }
     }
 }

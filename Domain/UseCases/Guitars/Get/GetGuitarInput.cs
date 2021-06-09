@@ -11,6 +11,7 @@ namespace Domain.UseCases.Guitars.Get
         public string Sort { get; set; }
         public int Page { get; set; }
         public string Order { get; set; }
+        public int? TypeId { get; set; }
     }
 
     public class GetGuitarInputValidtor : AbstractValidator<GetGuitarInput>

@@ -24,6 +24,11 @@ namespace Domain.UseCases.Guitars.Get
         {
             var query = _context.Guitars.AsQueryable();
 
+            if (request.TypeId.HasValue)
+            {
+                query = query.Where(x => x.GuitarTypeId == request.TypeId);
+            }
+
             if(request.Sort == "Date")
             {
                 if(request.Order == "ASC")
@@ -46,6 +51,8 @@ namespace Domain.UseCases.Guitars.Get
                     query = query.OrderByDescending(x => x.Cost);
                 }
             }
+
+
             query = query
                 .Skip((request.Page - 1) * 10)
                 .Take(10);
