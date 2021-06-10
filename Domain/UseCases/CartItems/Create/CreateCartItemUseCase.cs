@@ -6,24 +6,26 @@ using Domain.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Domain.UseCases.Order.Create
+namespace Domain.UseCases.Orders.Create
 {
-    public class CreateOrderUseCase : IUseCase<CreateOrderInput>
+    public class CreateCartItemUseCase : IUseCase<CreateCartItemInput>
     {
         private readonly IAppContext _context;
         private readonly IMediator _mediator;
 
-        public CreateOrderUseCase(IAppContext context, IMediator mediator)
+        public CreateCartItemUseCase(IAppContext context, IMediator mediator)
         {
             _context = context;
             _mediator = mediator;
         }
 
-
-        public async Task<IOutput> Handle(CreateOrderInput request, CancellationToken cancellationToken)
+        public async Task<IOutput> Handle(CreateCartItemInput request, CancellationToken cancellationToken)
         {
             var currentUser = await _mediator.Send(new GetCurrentUserInput());
 
@@ -31,17 +33,19 @@ namespace Domain.UseCases.Order.Create
                 .Include(x => x.CartItems)
                 .FirstAsync(x => x.UserId == currentUser.Id && x.Available);
 
-            cart.Address = request.Address;
-            cart.OrderDate = DateTime.Now;
-            cart.Available = false;
-
-            var newCart = new Cart
+            if (cart.CartItems.Select(x => x.GuitarId).Contains(request.guitarId))
             {
-                UserId = currentUser.Id,
-                Available = true,
+                return ActionOutput.Failure("Такая гитара уже есть в корзине");
+            }
+
+            var cartItem = new CartItem
+            {
+                CartId = cart.Id,
+                GuitarId = request.guitarId,
             };
 
-            _context.Carts.Add(newCart);
+            _context.CartItems.Add(cartItem);
+
             await _context.SaveChangesAsync();
 
             return ActionOutput.Success;

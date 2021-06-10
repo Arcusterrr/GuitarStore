@@ -1,29 +1,30 @@
 ﻿using Domain.Abstractions.Data;
 using Domain.Abstractions.Mediator;
 using Domain.Abstractions.Outputs;
-using Domain.Entities;
 using Domain.Services.Identity;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Domain.UseCases.Order.Create
+namespace Domain.UseCases.Order.Remove
 {
-    public class CreateOrderUseCase : IUseCase<CreateOrderInput>
+    public class RemoveCartItemUseCase : IUseCase<RemoveCartItemInput>
     {
         private readonly IAppContext _context;
         private readonly IMediator _mediator;
 
-        public CreateOrderUseCase(IAppContext context, IMediator mediator)
+        public RemoveCartItemUseCase(IMediator mediator, IAppContext context)
         {
-            _context = context;
             _mediator = mediator;
+            _context = context;
         }
 
-
-        public async Task<IOutput> Handle(CreateOrderInput request, CancellationToken cancellationToken)
+        public async Task<IOutput> Handle(RemoveCartItemInput request, CancellationToken cancellationToken)
         {
             var currentUser = await _mediator.Send(new GetCurrentUserInput());
 
@@ -31,17 +32,15 @@ namespace Domain.UseCases.Order.Create
                 .Include(x => x.CartItems)
                 .FirstAsync(x => x.UserId == currentUser.Id && x.Available);
 
-            cart.Address = request.Address;
-            cart.OrderDate = DateTime.Now;
-            cart.Available = false;
+            var item = cart.CartItems.FirstOrDefault(x => x.GuitarId == request.GuitarId);
 
-            var newCart = new Cart
+            if (item is null)
             {
-                UserId = currentUser.Id,
-                Available = true,
-            };
+                return ActionOutput.Success;
+            }
 
-            _context.Carts.Add(newCart);
+            _context.CartItems.Remove(item);
+
             await _context.SaveChangesAsync();
 
             return ActionOutput.Success;
