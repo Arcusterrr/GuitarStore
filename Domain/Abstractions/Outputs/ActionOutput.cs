@@ -1,6 +1,6 @@
-﻿﻿namespace Domain.Abstractions.Outputs
+﻿namespace Domain.Abstractions.Outputs
 {
-    public class ActionOutput: IOutput
+    public class ActionOutput : IOutput
     {
         public bool Succeeded { get; }
 

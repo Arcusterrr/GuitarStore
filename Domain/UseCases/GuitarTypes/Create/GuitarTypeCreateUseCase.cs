@@ -1,14 +1,14 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Domain.Abstractions.Data;
+﻿using Domain.Abstractions.Data;
 using Domain.Abstractions.Mediator;
 using Domain.Abstractions.Outputs;
 using Domain.Abstractions.Queries;
 using Domain.Entities;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Domain.UseCases.GuitarTypes.Create
 {
-    public class GuitarTypeCreateUseCase: IUseCase<GuitarTypeCreateInput>
+    public class GuitarTypeCreateUseCase : IUseCase<GuitarTypeCreateInput>
     {
         private readonly IAppContext _context;
 
@@ -27,7 +27,7 @@ namespace Domain.UseCases.GuitarTypes.Create
             await _context.GuitarTypes.AddAsync(guitarType, cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken);
-            
+
             return ObjectOutput.CreateWithId(guitarType.Id);
         }
     }

@@ -1,9 +1,9 @@
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Abstractions.Data;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Domain.UseCases.Queries.Users
 {
@@ -17,15 +17,15 @@ namespace Domain.UseCases.Queries.Users
         {
             var tempQuery = query;
 
-            if (!string.IsNullOrEmpty(filter.q)) 
+            if (!string.IsNullOrEmpty(filter.q))
             {
                 tempQuery = tempQuery.Where(x => x.UserName.ToLower().Contains(filter.q.ToLower()));
             }
 
             return tempQuery.Include(x => x.RolesEntities)
                 .Where(x => !x.RolesEntities
-                    .Any(x => 
-                        x.Role.Name == Enums.UserRole.Admin.ToString() || 
+                    .Any(x =>
+                        x.Role.Name == Enums.UserRole.Admin.ToString() ||
                         x.Role.Name == Enums.UserRole.Moderator.ToString())
                     );
         }

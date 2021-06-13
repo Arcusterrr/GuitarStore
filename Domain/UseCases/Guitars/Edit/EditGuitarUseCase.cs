@@ -1,22 +1,22 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Domain.Abstractions.Data;
+﻿using Domain.Abstractions.Data;
 using Domain.Abstractions.Mediator;
 using Domain.Abstractions.Outputs;
 using Domain.Abstractions.Queries;
 using Domain.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Domain.UseCases.Guitars.Edit
 {
-    public class EditGuitarUseCase: IUseCase<EditGuitarInput>
+    public class EditGuitarUseCase : IUseCase<EditGuitarInput>
     {
         private readonly IAppContext _context;
         private readonly IFileStorage _storage;
-        
+
         public EditGuitarUseCase(IAppContext context, IFileStorage storage)
         {
             _context = context;
@@ -42,7 +42,7 @@ namespace Domain.UseCases.Guitars.Edit
 
             var list = request.Files.ToList();
             var listOf = new List<string>();
-            
+
             foreach (var stream in list)
             {
                 await using var memoryStream1 = new MemoryStream();
@@ -69,7 +69,7 @@ namespace Domain.UseCases.Guitars.Edit
             guitar.GuitarTypeId = request.GuitarTypeId;
 
             await _context.SaveChangesAsync(cancellationToken);
-            
+
             return ObjectOutput.CreateWithId(guitar.Id);
         }
     }

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Domain.Abstractions.Mediator;
+﻿using Domain.Abstractions.Mediator;
 using FluentValidation;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Domain.UseCases.Guitars.Edit
 {
-    public class EditGuitarInput: IUseCaseInput
+    public class EditGuitarInput : IUseCaseInput
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -22,7 +22,7 @@ namespace Domain.UseCases.Guitars.Edit
     {
         public EditGuitarInputValidator()
         {
-            
+
         }
     }
 }

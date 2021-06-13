@@ -1,4 +1,4 @@
-﻿﻿namespace Domain.Abstractions.Data
+﻿namespace Domain.Abstractions.Data
 {
     public interface IEntity
     {

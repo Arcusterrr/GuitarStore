@@ -1,15 +1,15 @@
-﻿﻿using System;
-using System.Linq;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Enums;
- using Infrastructure.Configuration;
- using Microsoft.AspNetCore.Identity;
+using Infrastructure.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
- using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
+using System;
+using System.Linq;
 
- namespace Infrastructure.Data
+namespace Infrastructure.Data
 {
     public static class DatabaseInitializer
     {
@@ -33,7 +33,7 @@ using Microsoft.Extensions.Logging;
         }
 
         private static void Seed(AppDbContext dbContext, UserManager<User> userManager,
-            RoleManager<IdentityRole<int>> roleManager, ILogger<AppDbContext> logger, 
+            RoleManager<IdentityRole<int>> roleManager, ILogger<AppDbContext> logger,
             AdminConfiguration config)
         {
             try
@@ -48,15 +48,15 @@ using Microsoft.Extensions.Logging;
                         roleManager.CreateAsync(new IdentityRole<int>(role)).Wait();
                     }
                 }
-                
+
                 var user = new User(DateTime.Now, config.AdminUserName);
 
                 userManager.CreateAsync(user).GetAwaiter().GetResult();
                 userManager.AddPasswordAsync(user, config.AdminPassword).GetAwaiter().GetResult();
                 userManager.AddToRoleAsync(user, UserRole.Admin.ToString()).GetAwaiter().GetResult();
-                
+
                 dbContext.SaveChanges();
-                
+
                 dbContext.SaveChanges();
                 var guitarType = new GuitarType { Name = "Электрогитара" };
                 dbContext.GuitarTypes.Add(guitarType);

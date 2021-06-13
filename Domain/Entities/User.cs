@@ -1,16 +1,16 @@
-﻿﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Domain.Abstractions.Data;
+﻿using Domain.Abstractions.Data;
 using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Domain.Entities
 {
     public class User : IdentityUser<int>, IEntity
     {
         public bool Deleted { get; private set; }
-        
+
         public DateTime RegistrationDate { get; private set; }
 
         public IReadOnlyList<UserRoleEntity> RolesEntities { get; private set; }

@@ -1,10 +1,10 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Abstractions.Queries;
+using System;
 
 namespace Domain.UseCases.Queries.Guitars
 {
-    public class GuitarsViewModel: IFilter, IQueryOutput
+    public class GuitarsViewModel : IFilter, IQueryOutput
     {
         public int Id { get; set; }
         public string Name { get; set; }

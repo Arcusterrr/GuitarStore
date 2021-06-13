@@ -1,22 +1,22 @@
-﻿﻿using System.Threading.Tasks;
-using Domain.Abstractions.Data;
+﻿using Domain.Abstractions.Data;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Data
 {
-    public class AppDbContext: IdentityDbContext<User, IdentityRole<int>, int, IdentityUserClaim<int>, 
-            UserRoleEntity, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>, 
+    public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int, IdentityUserClaim<int>,
+            UserRoleEntity, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>,
         IAppContext
     {
         private IUnitOfWork _currentUnitOfWork;
         public AppDbContext(DbContextOptions options)
-            : base(options) {  }
-        
+            : base(options) { }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,7 +24,7 @@ namespace Infrastructure.Data
 
             builder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         }
-        
+
         public DbSet<User> Users { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
@@ -34,7 +34,7 @@ namespace Infrastructure.Data
         public new DbSet<TEntity> Set<TEntity>() where TEntity : class, IEntity
             => base.Set<TEntity>();
 
-        public new EntityEntry<TEntity> Entry<TEntity>(TEntity entity) 
+        public new EntityEntry<TEntity> Entry<TEntity>(TEntity entity)
             where TEntity : class, IEntity
         {
             return base.Entry(entity);

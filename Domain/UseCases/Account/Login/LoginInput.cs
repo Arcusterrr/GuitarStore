@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace Domain.UseCases.Account.Login
 {
-    public class LoginInput: IUseCaseInput
+    public class LoginInput : IUseCaseInput
     {
         public string Username { get; set; }
         public string Password { get; set; }

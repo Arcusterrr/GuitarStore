@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Domain.Services;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using Domain.Services;
 
 namespace Infrastructure.Services
 {
@@ -13,20 +13,22 @@ namespace Infrastructure.Services
         {
             _dir = Path.Combine(Directory.GetCurrentDirectory(), "imgs");
 
-            if (!Directory.Exists(_dir)) 
+            if (!Directory.Exists(_dir))
             {
                 Directory.CreateDirectory(_dir);
-            } 
+            }
         }
 
         public async Task<byte[]> Get(string fileName)
         {
-            try {
+            try
+            {
                 var bytes = await File.ReadAllBytesAsync(Path.Combine(_dir, fileName));
 
                 return bytes;
             }
-            catch {
+            catch
+            {
                 return new byte[0];
             }
         }

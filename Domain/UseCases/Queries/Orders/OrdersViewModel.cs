@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Abstractions.Queries;
 using Domain.Entities;
 using Domain.UseCases.Queries.Guitars;
+using System;
+using System.Collections.Generic;
 
 namespace Domain.UseCases.Queries.Orders
 {

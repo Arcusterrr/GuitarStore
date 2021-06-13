@@ -1,13 +1,13 @@
-﻿﻿using System.Diagnostics.CodeAnalysis;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
- using Domain.Entities;
- using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Domain.Abstractions.Data
 {
-    public interface IAppContext: IUnitOfWorkCreator
+    public interface IAppContext : IUnitOfWorkCreator
     {
         DbSet<User> Users { get; set; }
         DbSet<Cart> Carts { get; set; }

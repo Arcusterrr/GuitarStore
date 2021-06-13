@@ -1,14 +1,14 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Domain.Abstractions.Data;
+﻿using Domain.Abstractions.Data;
 using Domain.Abstractions.Mediator;
 using Domain.Abstractions.Outputs;
 using Domain.Abstractions.Queries;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Domain.UseCases.GuitarTypes.Edit
 {
-    public class GuitarTypeEditUseCase: IUseCase<GuitarTypeEditInput>
+    public class GuitarTypeEditUseCase : IUseCase<GuitarTypeEditInput>
     {
         private readonly IAppContext _context;
 
@@ -24,7 +24,7 @@ namespace Domain.UseCases.GuitarTypes.Edit
             type.Name = request.Name;
 
             await _context.SaveChangesAsync(cancellationToken);
-            
+
             return ObjectOutput.CreateWithId(type.Id);
         }
     }

@@ -1,6 +1,6 @@
-﻿﻿using System.Linq;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Domain.Extensions
 {

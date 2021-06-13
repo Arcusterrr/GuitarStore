@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Abstractions.Data;
 using Domain.Abstractions.Queries;
 using Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Z.EntityFramework.Plus;
 
 namespace Domain.UseCases.Queries
 {
     public abstract class QueryHandler<TFilter, TEntity, TOutput>
         where TEntity : class, IEntity
-        where TFilter: class, IFilter
-        where TOutput: class, IQueryOutput
+        where TFilter : class, IFilter
+        where TOutput : class, IQueryOutput
     {
         protected readonly IAppContext DbContext;
         protected readonly IMapper Mapper;
@@ -29,7 +29,7 @@ namespace Domain.UseCases.Queries
             var query = GetQuery();
             var result = await query
                 .FirstOrDefaultAsync(e => e.Id == id);
-            
+
             return ToOutput(result);
         }
 
@@ -65,7 +65,7 @@ namespace Domain.UseCases.Queries
             {
                 return Mapper.Map<TOutput>(mappedRequest);
             }
-            
+
             DbContext.Entry(found).CurrentValues.SetValues(mappedRequest);
             await DbContext.SaveChangesAsync();
 
@@ -81,7 +81,7 @@ namespace Domain.UseCases.Queries
 
             return Mapper.Map<TOutput>(entity);
         }
-        
+
         protected virtual IQueryable<TEntity> GetQuery() => DbContext.Set<TEntity>();
         protected virtual TOutput ToOutput(TEntity entity) => Mapper.Map<TOutput>(entity);
 
@@ -91,7 +91,7 @@ namespace Domain.UseCases.Queries
         {
             if (ids != null && ids.Count != 0)
                 return query.Where(e => ids.Contains(e.Id));
-            
+
             return query;
         }
 
@@ -101,7 +101,7 @@ namespace Domain.UseCases.Queries
                 return request.SortOrder == SortOrder.Desc
                     ? query.OrderByDesc(request.OrderBy)
                     : query.OrderBy(request.OrderBy);
-            
+
             return query.OrderBy(e => e.Id);
         }
 
@@ -111,7 +111,7 @@ namespace Domain.UseCases.Queries
                 return query
                     .Skip(request.Start.Value)
                     .Take(request.End.Value - request.Start.Value);
-            
+
             return query;
         }
     }

@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Domain.Abstractions.Data;
 using Domain.Abstractions.Mediator;
 using Domain.Abstractions.Outputs;
@@ -10,18 +8,20 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Threading;
+using System.Threading.Tasks;
 using static Domain.Abstractions.Outputs.ActionOutput;
 
 namespace Domain.UseCases.Account.Login
 {
-    public class LoginUseCase: IUseCase<LoginInput>
+    public class LoginUseCase : IUseCase<LoginInput>
     {
         private readonly IMediator _mediator;
         private readonly SignInManager<User> _signInManager;
         private readonly IAppContext _context;
         private readonly ILogger<LoginUseCase> _logger;
 
-        public LoginUseCase(IMediator mediator, SignInManager<User> signInManager, IAppContext context, 
+        public LoginUseCase(IMediator mediator, SignInManager<User> signInManager, IAppContext context,
             ILogger<LoginUseCase> logger)
         {
             _mediator = mediator;
@@ -49,14 +49,14 @@ namespace Domain.UseCases.Account.Login
                 _logger.LogInformation("User {name} bad password {pass}", request.Username, request.Password);
                 return Failure("Пользователь не найден");
             }
-            
+
             _logger.LogInformation("User {name} with password {pass} signed in", request.Username, request.Password);
 
             var token = await _mediator.Send(new GenerateTokenInput
             {
                 User = user
             }, cancellationToken);
-            
+
             return SuccessData(new
             {
                 token

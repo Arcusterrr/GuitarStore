@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Abstractions.Data;
 using Domain.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Domain.UseCases.Queries.Guitars
 {

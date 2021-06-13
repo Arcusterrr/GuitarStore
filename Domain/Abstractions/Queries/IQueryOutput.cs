@@ -1,4 +1,4 @@
-﻿﻿namespace Domain.Abstractions.Queries
+﻿namespace Domain.Abstractions.Queries
 {
     public interface IQueryOutput
     { }

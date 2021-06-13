@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Domain.UseCases.Account.AdminSignIn
 {
-    public class AdminSignInInput: IUseCaseInput
+    public class AdminSignInInput : IUseCaseInput
     {
         public string UserName { get; set; }
         public string Password { get; set; }

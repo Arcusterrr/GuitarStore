@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Domain.Abstractions.Mediator;
+﻿using Domain.Abstractions.Mediator;
 using FluentValidation;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Domain.UseCases.Guitars.Create
 {
-    public class CreateGuitarInput: IUseCaseInput
+    public class CreateGuitarInput : IUseCaseInput
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -21,7 +21,7 @@ namespace Domain.UseCases.Guitars.Create
     {
         public CreateGuitarInputValidator()
         {
-            
+
         }
     }
 }

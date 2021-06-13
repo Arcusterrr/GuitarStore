@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Domain.Abstractions.Data;
+﻿using Domain.Abstractions.Data;
 using Domain.Abstractions.Mediator;
 using Domain.Abstractions.Outputs;
 using Domain.Abstractions.Queries;
 using Domain.Entities;
 using Domain.Services;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Domain.UseCases.Guitars.Create
 {
-    public class CreateGuitarUseCase: IUseCase<CreateGuitarInput>
+    public class CreateGuitarUseCase : IUseCase<CreateGuitarInput>
     {
         private readonly IAppContext _context;
         private readonly IFileStorage _storage;
@@ -34,7 +34,7 @@ namespace Domain.UseCases.Guitars.Create
             var filename = await _storage.Save(bytes);
 
             var list = new List<string>();
-            
+
             foreach (var requestFile in request.Files)
             {
                 await using var memoryStream1 = new MemoryStream();
@@ -46,7 +46,7 @@ namespace Domain.UseCases.Guitars.Create
                 var filename1 = await _storage.Save(bytes1);
                 list.Add("/api/v1/imgs/" + filename1);
             }
-                
+
             var guitar = new Guitar
             {
                 Img = "/api/v1/imgs/" + filename,
@@ -63,7 +63,7 @@ namespace Domain.UseCases.Guitars.Create
             await _context.Guitars.AddAsync(guitar, cancellationToken);
 
             await _context.SaveChangesAsync(cancellationToken);
-            
+
             return ObjectOutput.CreateWithId(guitar.Id);
         }
     }

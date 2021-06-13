@@ -2,10 +2,7 @@
 using Domain.Abstractions.Mediator;
 using Domain.Abstractions.Outputs;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,9 +26,9 @@ namespace Domain.UseCases.Guitars.Get
                 query = query.Where(x => x.GuitarTypeId == request.TypeId);
             }
 
-            if(request.Sort == "Date")
+            if (request.Sort == "Date")
             {
-                if(request.Order == "ASC")
+                if (request.Order == "ASC")
                 {
                     query = query.OrderBy(x => x.DateCreated);
                 }

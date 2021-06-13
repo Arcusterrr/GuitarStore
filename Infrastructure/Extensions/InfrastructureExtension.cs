@@ -1,8 +1,8 @@
-﻿﻿using Domain.Abstractions.Data;
- using Domain.Services;
- using Infrastructure.Data;
- using Infrastructure.Services;
- using Microsoft.EntityFrameworkCore;
+﻿using Domain.Abstractions.Data;
+using Domain.Services;
+using Infrastructure.Data;
+using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Extensions

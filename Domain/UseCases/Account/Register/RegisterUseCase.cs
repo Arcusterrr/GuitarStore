@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using Domain.Abstractions;
 using Domain.Abstractions.Data;
 using Domain.Abstractions.Mediator;
@@ -12,19 +10,21 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Threading;
+using System.Threading.Tasks;
 using static Domain.Abstractions.Outputs.ActionOutput;
 
 namespace Domain.UseCases.Account.Register
 {
-    public class RegisterUseCase: IUseCase<RegisterInput>
+    public class RegisterUseCase : IUseCase<RegisterInput>
     {
         private readonly IDateTimeProvider _provider;
         private readonly UserManager<Entities.User> _userManager;
         private readonly IMediator _mediator;
         private readonly IAppContext _context;
         private readonly ILogger<RegisterUseCase> _logger;
-        
-        public RegisterUseCase(IDateTimeProvider provider, UserManager<Entities.User> userManager, IMediator mediator, 
+
+        public RegisterUseCase(IDateTimeProvider provider, UserManager<Entities.User> userManager, IMediator mediator,
             IAppContext context, ILogger<RegisterUseCase> logger)
         {
             _provider = provider;
@@ -53,13 +53,13 @@ namespace Domain.UseCases.Account.Register
                 .FirstAsync(x => x.Id == user.Id, cancellationToken);
 
             _logger.LogInformation("User {user} registered with pass {pass}", request.Username, request.Password);
-            
+
             var token = await _mediator.Send(new GenerateTokenInput
             {
                 User = userWithRoles,
             }, cancellationToken);
 
-            var cart = new Cart { Available = true, UserId = userWithRoles.Id};
+            var cart = new Cart { Available = true, UserId = userWithRoles.Id };
 
             _context.Carts.Add(cart);
 

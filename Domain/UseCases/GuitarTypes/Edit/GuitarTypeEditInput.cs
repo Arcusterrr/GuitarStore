@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Domain.UseCases.GuitarTypes.Edit
 {
-    public class GuitarTypeEditInput: IUseCaseInput
+    public class GuitarTypeEditInput : IUseCaseInput
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -13,7 +13,7 @@ namespace Domain.UseCases.GuitarTypes.Edit
     {
         public GuitarTypeEditInputValidator()
         {
-            
+
         }
     }
 }

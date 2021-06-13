@@ -1,6 +1,3 @@
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Domain.Abstractions.Data;
 using Domain.Abstractions.Mediator;
 using Domain.Abstractions.Outputs;
@@ -10,11 +7,14 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using static Domain.Abstractions.Outputs.ActionOutput;
 
 namespace Domain.UseCases.Account.AdminSignIn
 {
-    public class AdminSignInUseCase: IUseCase<AdminSignInInput>
+    public class AdminSignInUseCase : IUseCase<AdminSignInInput>
     {
         private readonly ILogger<AdminSignInUseCase> _logger;
         private readonly IAppContext _context;
@@ -34,18 +34,18 @@ namespace Domain.UseCases.Account.AdminSignIn
             var userName = request.UserName.Trim().ToLower();
             var user = await _context.Users.WithRoles()
                 .FirstOrDefaultAsync(u => u.UserName.ToLower() == userName, cancellationToken);
-            
+
             if (user == null)
             {
                 _logger.LogWarning("User {UserName} not found", request.UserName);
-                
+
                 return Failure("Пользователь не найден");
             }
 
             if (!user.IsStaff)
             {
                 _logger.LogWarning("User {UserName} try to sign in as admin", request.UserName);
-                
+
                 return Failure("Нет доступа");
             }
 
@@ -61,7 +61,7 @@ namespace Domain.UseCases.Account.AdminSignIn
 
             return SuccessData(new
             {
-                AccessToken = await _mediator.Send(new GenerateTokenInput {User = user}, cancellationToken),
+                AccessToken = await _mediator.Send(new GenerateTokenInput { User = user }, cancellationToken),
                 Roles = user.Roles.Select(r => r.ToString()).ToList(),
             });
         }

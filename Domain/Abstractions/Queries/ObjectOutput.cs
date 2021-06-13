@@ -1,8 +1,8 @@
-﻿﻿using Domain.Abstractions.Outputs;
+﻿using Domain.Abstractions.Outputs;
 
 namespace Domain.Abstractions.Queries
 {
-    public class ObjectOutput: IOutput
+    public class ObjectOutput : IOutput
     {
         public object Object { get; set; }
 
@@ -21,7 +21,7 @@ namespace Domain.Abstractions.Queries
                 Id = id,
             });
         }
-        
-        private ObjectOutput() {}
+
+        private ObjectOutput() { }
     }
 }

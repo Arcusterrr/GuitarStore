@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Domain.UseCases.GuitarTypes.Create
 {
-    public class GuitarTypeCreateInput: IUseCaseInput
+    public class GuitarTypeCreateInput : IUseCaseInput
     {
         public string Name { get; set; }
     }
@@ -12,7 +12,7 @@ namespace Domain.UseCases.GuitarTypes.Create
     {
         public GuitarTypeCreateValidation()
         {
-            
+
         }
     }
 }

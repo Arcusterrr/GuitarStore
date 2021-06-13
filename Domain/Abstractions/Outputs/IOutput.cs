@@ -1,7 +1,7 @@
-﻿﻿namespace Domain.Abstractions.Outputs
+﻿namespace Domain.Abstractions.Outputs
 {
     public interface IOutput
     {
-        
+
     }
 }

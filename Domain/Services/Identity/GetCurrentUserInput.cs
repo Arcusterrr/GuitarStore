@@ -1,11 +1,11 @@
-using System;
-using System.Linq;
 using Domain.Entities;
 using MediatR;
+using System;
+using System.Linq;
 
 namespace Domain.Services.Identity
 {
-    public class GetCurrentUserInput: IRequest<User>
+    public class GetCurrentUserInput : IRequest<User>
     {
         public Func<IQueryable<User>, IQueryable<User>> IncludeExpression { get; set; }
 
