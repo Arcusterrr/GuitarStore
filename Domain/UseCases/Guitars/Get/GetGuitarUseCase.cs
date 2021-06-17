@@ -51,8 +51,8 @@ namespace Domain.UseCases.Guitars.Get
 
 
             query = query
-                .Skip((request.Page - 1) * 10)
-                .Take(10);
+                .Skip((request.Page - 1) * (request.PageSize ?? 10))
+                .Take(request.PageSize ?? 10);
 
             var items = await query.ToListAsync();
             var totalCount = await _context.Guitars.CountAsync();

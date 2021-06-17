@@ -9,6 +9,7 @@ namespace Domain.UseCases.Guitars.Get
         public int Page { get; set; }
         public string Order { get; set; }
         public int? TypeId { get; set; }
+        public int? PageSize { get; set; }
     }
 
     public class GetGuitarInputValidtor : AbstractValidator<GetGuitarInput>
